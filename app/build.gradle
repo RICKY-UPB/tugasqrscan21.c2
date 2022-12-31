@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace 'com.example.tugasqrscaner21c2'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.tugasqrscaner21c2"
         minSdk 23
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -37,4 +37,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+    implementation 'com.google.zxing:core:3.4.1'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+
 }
