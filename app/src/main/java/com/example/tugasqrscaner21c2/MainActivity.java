@@ -76,22 +76,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         double latitude = Double.parseDouble(geoLocation[0]);
                         double longitude = Double.parseDouble(geoLocation[1]);
 
-                        // Membuka aplikasi Google Maps dan menampilkan lokasi yang di scan
+// Membuka aplikasi Google Maps dan menampilkan lokasi yang di scan
                         Uri gmmIntentUri = Uri.parse("geo:" + latitude + "," + longitude);
                         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                         mapIntent.setPackage("com.google.android.apps.maps");
                         startActivity(mapIntent);
                     } else {
-                        // DIAL UP, NOMOR TELEPON
+// DIAL UP, NOMOR TELEPON
                         try {
                             Intent intent2 = new Intent(Intent.ACTION_CALL, Uri.parse(result.getContents()));
                             startActivity(intent2);
                         } catch (Exception e2) {
                             Toast.makeText(this, "Not Scanned", Toast.LENGTH_LONG).show();
                         }
+// Logika Jika ada email pada barcode yang sudah ter-scan
+                        if (result.getContents() != null) {
+                            String string = result.getContents();
+                            String[] parts = string.split("[:;]");
+                            String to = parts[2];
+                            String subject = parts[4];
+                            String text = parts[6];
+                            Intent intent = new Intent(Intent.ACTION_SEND);
+                            intent.putExtra(Intent.EXTRA_EMAIL, new String []{to});
+                            intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+                            intent.putExtra(Intent.EXTRA_TEXT, text);
+                            intent.setType("text/html");
+                            intent.setPackage("com.google.android.gm");
+                            startActivity(Intent.createChooser(intent, "Send mail"));
+                        }
                     }
                 }
             }
+
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
